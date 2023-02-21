@@ -6,7 +6,7 @@
 #    By: hbrouwer <hbrouwer@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/29 21:50:55 by hbrouwer      #+#    #+#                  #
-#    Updated: 2023/01/29 22:08:16 by hbrouwer      ########   odam.nl          #
+#    Updated: 2023/02/21 13:34:32 by hbrouwer      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ GCC = gcc
 
 FLAGS = -Wall -Werror -Wextra
 
-SRC = 	main.c
+SRC = 	lst_add.c push_swap.c
 
 OBJS = $(SRC:.c=.o)
 
