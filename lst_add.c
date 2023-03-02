@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 13:45:57 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/02/21 14:36:06 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/02 14:16:05 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ void	ft_lstadd_back(t_stack *stack, t_list *new)
 	{
 		*(stack->head) = new;
 		*(stack->tail) = new;
+		stack->length++;
 		return ;
 	}
 	new->next = NULL;
 	new->prev = *(stack->tail);
 	(*(stack->tail))->next = new;
 	*(stack->tail) = new;
+	stack->length++;
 }
