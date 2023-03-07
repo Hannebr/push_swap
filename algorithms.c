@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 15:21:10 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/02 16:13:51 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/07 13:05:37 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ void    smallest_alg(t_stack *stack_a, t_stack *stack_b)
         }
         push(stack_a, stack_b, 2);
     }
+    while (*stack_b->tail)
+        push(stack_a, stack_b, 1);
+}
+
+void    sort_3(t_stack *stack_a, t_stack *stack_b)
+{
+    
 }

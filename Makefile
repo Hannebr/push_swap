@@ -6,30 +6,35 @@
 #    By: hbrouwer <hbrouwer@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/29 21:50:55 by hbrouwer      #+#    #+#                  #
-#    Updated: 2023/03/02 15:43:08 by hbrouwer      ########   odam.nl          #
+#    Updated: 2023/03/07 11:46:38 by hbrouwer      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
 
-GCC = gcc
+LIBS = ./libft/libft.a
 
 FLAGS = -Wall -Werror -Wextra
 
 SRC = 	lst_add.c push_swap.c operations.c algorithms.c
 
-OBJS = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 all: 		$(NAME)
 
-%.o: 		%.c
-			$(CC) $(FLAGS) -c $< -o $@
-
-$(NAME): 	$(OBJS)
-			$(GCC) -o $(NAME) $(OBJS)	
+$(NAME): 	$(OBJ)
+			@cd libft && $(MAKE)
+			@$(CC) $^ $(LIBS) -o $(NAME)	
+			
+%.o: 		%.c 
+			@$(CC) $(FLAGS) $(HEADER) -c $< -o $@
 
 clean: 
-			rm -f $(OBJS)
+			@rm -f $(OBJ)
+			@cd libft && $(MAKE) clean
 	
-fclean:		clean
-			rm -f $(NAME)
+fclean:		
+			@rm -f $(NAME) $(OBJ)
+			@cd libft && $(MAKE) fclean
+
+re:		fclean all

@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 13:52:15 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/02 14:14:31 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/07 13:29:41 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ void	swap(t_stack *stack_a, t_stack *stack_b, int option)
 	if (option == 1)
 	{
 		swap_stack(stack_a);
-		printf("sa\n");
+		ft_printf("sa\n");
 	}
 	if (option == 2)
 	{
 		swap_stack(stack_b);
-		printf("sb\n");
+		ft_printf("sb\n");
 	}
 	else if (option == 0)
 	{
 		swap_stack(stack_a);
 		swap_stack(stack_b);
-		printf("ss\n");
+		ft_printf("ss\n");
 	}
 }
 
@@ -46,12 +46,12 @@ void	push(t_stack *stack_a, t_stack *stack_b, int option)
 	if (option == 1)
 	{
 		push_stack(stack_b, stack_a);
-		printf("pa\n");
+		ft_printf("pa\n");
 	}
 	else if (option == 2)
 	{
 		push_stack(stack_a, stack_b);
-		printf("pb\n");
+		ft_printf("pb\n");
 	}
 }
 
@@ -60,6 +60,8 @@ void	push_stack(t_stack *src, t_stack *dst)
 	t_list	*node;
 	
 	node = (*src->tail);
+	if (node == (*src->head))
+		(*src->head) = NULL;
 	(*src->tail) = (*src->tail)->prev;
 	node->next = NULL;
 	node->prev = NULL;
@@ -72,18 +74,18 @@ void	rotate(t_stack *stack_a, t_stack *stack_b, int option)
 	if (option == 1)
 	{
 		rotate_stack(stack_a);
-		printf("ra\n");
+		ft_printf("ra\n");
 	}
 	else if (option == 2)
 	{
 		rotate_stack(stack_b);
-		printf("rb\n");
+		ft_printf("rb\n");
 	}
 	else if (option == 0)
 	{
 		rotate_stack(stack_a);
 		rotate_stack(stack_b);
-		printf("rr\n");
+		ft_printf("rr\n");
 	}
 }
 
@@ -105,18 +107,18 @@ void	rev_rotate(t_stack *stack_a, t_stack *stack_b, int option)
 	if (option == 1)
 	{
 		rev_rotate_stack(stack_a);
-		printf("rra\n");
+		ft_printf("rra\n");
 	}
 	else if (option == 2)
 	{
 		rev_rotate_stack(stack_b);
-		printf("rrb\n");
+		ft_printf("rrb\n");
 	}
 	else if (option == 0)
 	{
 		rev_rotate_stack(stack_a);
 		rev_rotate_stack(stack_b);
-		printf("rrr\n");
+		ft_printf("rrr\n");
 	}
 }
 

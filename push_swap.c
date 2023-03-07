@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:56:55 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/02 16:16:49 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/07 13:28:47 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,31 @@ void	print_stacks(t_stack *stack_a, t_stack *stack_b)
 {
 	t_list	*ptr;
 	
-	printf("\nstack a:	");
+	ft_printf("\nstack a:	");
 	if (*stack_a->tail)
 	{
 		ptr = *stack_a->tail;
 		while (ptr != NULL)
 		{
-			printf("%i ", (ptr)->number);
+			ft_printf("%i ", (ptr)->number);
 			ptr = (ptr)->prev;
 		}
 	}
 	// if ((*stack_a->head) && (*stack_a->tail))
-	// 	printf("\nhead stack a: %i\ntail stack a: %i", (*stack_a->head)->number, (*stack_a->tail)->number);
-	printf("\nstack b:	");
+	// 	ft_printf("\nhead stack a: %i\ntail stack a: %i", (*stack_a->head)->number, (*stack_a->tail)->number);
+	ft_printf("\nstack b:	");
 	if (*stack_b->tail)
 	{
 		ptr = *stack_b->tail;
 		while (ptr != NULL)
 		{
-			printf("%i ", (ptr)->number);
+			ft_printf("%i ", (ptr)->number);
 			ptr = (ptr)->prev;
 		}	
 	}
-	printf("\n\n");
+	ft_printf("\n\n");
 	// if ((*stack_b->head) && (*stack_b->tail))
-	// 	printf("\nhead stack a: %i\ntail stack a: %i\n", (*stack_b->head)->number, (*stack_b->tail)->number);
+	// 	ft_printf("\nhead stack a: %i\ntail stack a: %i\n", (*stack_b->head)->number, (*stack_b->tail)->number);
 }
 
 int	main(int argc, char **argv)
