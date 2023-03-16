@@ -6,12 +6,11 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:56:55 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/14 16:06:43 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/16 18:05:06 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft/libft.h"
 
 void	init_a(int argc, char **input, t_stack *stack_a)
 {
@@ -68,6 +67,11 @@ char	**trim_input(char **argv, int argc)
 	return (input);
 }
 
+// char	**check_and_format(int argc, char **argv)
+// {
+// 	return (NULL);
+// }
+
 void	print_stacks(t_stack *stack_a, t_stack *stack_b)
 {
 	t_list	*ptr_a;
@@ -108,7 +112,6 @@ int	main(int argc, char **argv)
 	t_stack	*stack_b;
 	char	**input;
 	int		*sorted;
-	int pivot;
 
 	stack_a = (t_stack *) malloc(sizeof(t_stack));
 	if (!stack_a)
@@ -130,17 +133,18 @@ int	main(int argc, char **argv)
 	free_input(input, argc);
 	init_b(stack_b);
 	sorted = selection_sort(stack_a);
-	pivot = 4;
-	if (!(is_sorted(stack_a, sorted, 1, stack_a->length)))
-	{
-		ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
-		ft_printf("%i\n", pushes_possible(stack_a, pivot, 1));
-	}
+	// if (!(is_sorted(stack_a, sorted, 1, stack_a->length)))
+	// {
+	// 	ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
+	// 	ft_printf("%i\n", pushes_possible(stack_a, pivot, 1));
+	// }
 	// print_stacks(stack_a, stack_b);
 	// quicksort_a(stack_a, stack_b, sorted, stack_a->length);
 	// bucketsort(stack_a, stack_b);
 	// smallest_alg(stack_a, stack_b);
+	ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
 	print_stacks(stack_a, stack_b);
+	free(sorted);
 	free_stacks(stack_a, stack_b);
 	// atexit(checkLeaks);
 	return (0);

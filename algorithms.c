@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 15:21:10 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/14 16:04:54 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/16 17:02:23 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,48 @@ int is_sorted(t_stack *stack, int *sorted, int opt, int len)
 	return (1);
 }
 
-int get_pivot(t_stack *stack, int *sorted, int opt, int len)
+int	get_pivot_a(t_stack *stack, int *sorted, int len)
 {
-    int 	*array;
-	int 	i;
-	int		j;
+	int		*array;
+	int		offset;
+	int		i;
+	int		pivot;
 	t_list	*tmp;
-	
-	i = 0;
+
+	offset = 0;
 	tmp = *stack->head;
-	if (opt == 1)
-		j = len - 1;
-	else
-		j = 0;
-	while (tmp->number == sorted[j])
+	i = len - 1;
+	while (tmp->number == sorted[i])
 	{
-		i++;
-		if (opt == 1)
-			j--;
-		else
-			j++;
+		offset++;
+		i--;
 		tmp = tmp->next;
 	}
 	array = selection_sort(stack);
-	return (array[(stack->length - i) / 2]);
+	pivot = array[(stack->length - i)/ 2];
+	return (free(array), pivot);
+}
+
+int	get_pivot_b(t_stack *stack, int *sorted, int len)
+{
+	int		*array;
+	int		offset;
+	int		i;
+	int		pivot;
+	t_list	*tmp;
+
+	offset = 0;
+	tmp = *stack->head;
+	i = 0;
+	while (tmp->number == sorted[i])
+	{
+		offset++;
+		i++;
+		tmp = tmp->next;
+	}
+	array = selection_sort(stack);
+	pivot = array[((stack->length - i) / 2) + i];
+	return (free(array), pivot);
 }
 
 int 	pushes_possible(t_stack *stack, int pivot, int opt)
@@ -109,9 +127,9 @@ int 	pushes_possible(t_stack *stack, int pivot, int opt)
 	tmp = *stack->tail;
 	while (tmp)
 	{
-		if (opt == 1 && tmp->number < pivot)
+		if (opt == 'A' && tmp->number <= pivot)
 			return (1);
-		if (opt == 2 && tmp->number >= pivot)
+		if (opt == 'B' && tmp->number >= pivot)
 			return (1);
 		tmp = tmp->prev;
 	}
@@ -265,25 +283,29 @@ void    swap_num(int *a, int *b)
 	*b = temp;
 }
 
-void	sort_2(t_stack *stack_a, t_stack *stack_b)
+void	sort_2_a(t_stack *stack_a)
 {
 	if (stack_a->length == 2)
 	{
 		if ((*stack_a->tail)->number <= (*stack_a->head)->number)
 			return ;
 		else
-			swap(stack_a, stack_b, 1);
+			sa(stack_a);
 	}
-	// if (stack_b->length == 2)
-	// {
-	// 	if ((*stack_b->tail)->number <= (*stack_b->head)->number)
-	// 		return ;
-	// 	else
-	// 		swap(stack_a, stack_b, 2);
-	// }
 }
 
-void    sort_3(t_stack *stack_a, t_stack *stack_b)
+void	sort_2_b(t_stack *stack_b)
+{
+	if (stack_b->length == 2)
+	{
+		if ((*stack_b->tail)->number <= (*stack_b->head)->number)
+			return ;
+		else
+			sb(stack_b);
+	}
+}
+
+void    sort_3_a(t_stack *stack_a, t_stack *stack_b)
 {
 	if (stack_a->length == 3)
 	{
@@ -294,17 +316,21 @@ void    sort_3(t_stack *stack_a, t_stack *stack_b)
 		if ((*stack_a->tail)->number >= (*stack_a->tail)->prev->number && (*stack_a->tail)->number >= (*stack_a->head)->number)
 			rotate(stack_a, stack_b, 1);
 		if ((*stack_a->tail)->number >= (*stack_a->tail)->prev->number && (*stack_a->tail)->number <= (*stack_a->head)->number)
-			swap(stack_a, stack_b, 1);
+			sa(stack_a);
 	}
-	// if (stack_b->length == 3)
-	// {
-	// 	if ((*stack_b->tail)->prev->number >= (*stack_b->tail)->number && (*stack_b->tail)->prev->number <= (*stack_b->head)->number)
-	// 		return ;
-	// 	if ((*stack_b->tail)->prev->number >= (*stack_b->tail)->number && (*stack_b->tail)->prev->number >= (*stack_b->head)->number)
-	// 		rev_rotate(stack_a, stack_b, 2);
-	// 	if ((*stack_b->tail)->number >= (*stack_b->tail)->prev->number && (*stack_b->tail)->number >= (*stack_b->head)->number)
-	// 		rotate(stack_a, stack_b, 2);
-	// 	if ((*stack_b->tail)->number >= (*stack_b->tail)->prev->number && (*stack_b->tail)->number <= (*stack_b->head)->number)
-	// 		swap(stack_a, stack_b, 2);
-	// }
+}
+
+void    sort_3_b(t_stack *stack_a, t_stack *stack_b)
+{
+	if (stack_b->length == 3)
+	{
+		if ((*stack_b->tail)->prev->number >= (*stack_b->tail)->number && (*stack_b->tail)->prev->number <= (*stack_b->head)->number)
+			return ;
+		if ((*stack_b->tail)->prev->number >= (*stack_b->tail)->number && (*stack_b->tail)->prev->number >= (*stack_b->head)->number)
+			rev_rotate(stack_a, stack_b, 2);
+		if ((*stack_b->tail)->number >= (*stack_b->tail)->prev->number && (*stack_b->tail)->number >= (*stack_b->head)->number)
+			rotate(stack_a, stack_b, 2);
+		if ((*stack_b->tail)->number >= (*stack_b->tail)->prev->number && (*stack_b->tail)->number <= (*stack_b->head)->number)
+			sb(stack_a);
+	}
 }

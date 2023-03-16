@@ -6,7 +6,7 @@
 #    By: hbrouwer <hbrouwer@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/29 21:50:55 by hbrouwer      #+#    #+#                  #
-#    Updated: 2023/03/09 08:46:06 by hbrouwer      ########   odam.nl          #
+#    Updated: 2023/03/16 18:01:19 by hbrouwer      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,11 @@ LIBS = ./libft/libft.a
 
 FLAGS = -Wall -Werror -Wextra
 
-SRC = 	lst_add.c push_swap.c operations.c algorithms.c
+SRC = 	lst_add.c \
+		push_swap.c \
+		algorithms.c \
+		push.c swap.c \
+		rotate.c
 
 OBJ = $(SRC:.c=.o)
 
