@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:45:42 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/16 18:00:10 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/22 23:48:42 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <limits.h>
 
 // ---------------------structs--------------------------------
 typedef struct s_list
 {
 	int				number;
+	int				index;
 	struct s_list	*next;
 	struct s_list	*prev;
 }					t_list;
@@ -40,6 +42,12 @@ void	free_input(char **input, int argc);
 void	init_a(int argc, char **argv, t_stack *stack_a);
 void	init_b(t_stack *stack_b);
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
+// -----------------------parse------------------------------
+char 	**parse_input(int *argc, char **argv);
+char	**trim_input(char **argv, int argc);
+int 	is_valid_input(char **input, int argc);
+int		is_valid_int(char *str);
+int		has_duplicates(t_stack *stack);
 // -----------------------swap------------------------------
 void	sa(t_stack *stack_a);
 void	sb(t_stack *stack_b);
@@ -54,21 +62,29 @@ void	rrb(t_stack *stack_b);
 // -----------------------operations------------------------------
 void	find_and_push(t_stack *stack_a, t_stack *stack_b, int num);
 void	push_and_rotate(t_stack *stack_a, t_stack *stack_b);
+// -----------------------check------------------------------
+int		is_sorted_a(t_stack *stack_a, int *sorted, int len);
+int		is_sorted_b(t_stack *stack_b, int *sorted, int len);
+int		pushes_possible(t_stack *stack, int pivot, int opt);
 // ------------------------algorithms-----------------------------
-void    smallest_alg(t_stack *stack_a, t_stack *stack_b);
-int     get_median(t_stack *stack);
-int 	get_pivot(t_stack *stack, int *sorted, int opt, int len);
-int 	pushes_possible(t_stack *stack, int pivot, int opt);
-int 	is_sorted(t_stack *stack, int *sorted, int opt, int len);
-int 	*selection_sort(t_stack *stack);
+void	smallest_alg(t_stack *stack_a, t_stack *stack_b);
+int		get_pivot_a(t_stack *stack, int *sorted, int len);
+int		get_pivot_b(t_stack *stack, int *sorted);
+int		*selection_sort(t_stack *stack);
 void	bucketsort(t_stack *stack_a, t_stack *stack_b);
-void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int pushes);
-void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int pushes);
-int		pivot_a_compare(t_stack *stack_a, t_stack *stack_b, int pushes, int pivot);
-int		pivot_b_compare(t_stack *stack_a, t_stack *stack_b, int pushes, int pivot);
-void    sort_3(t_stack *stack_a, t_stack *stack_b);
-void	sort_2(t_stack *stack_a, t_stack *stack_b);
+void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int *sorted, int len);
+void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int *sorted, int len);
+void	push_pivot_a(t_stack *stack_a, t_stack *stack_b, int pivot);
+void	push_pivot_b(t_stack *stack_a, t_stack *stack_b, int pivot);
+int		pivot_a_compare(t_stack *stack_a, t_stack *stack_b, \
+int pushes, int pivot);
+int		pivot_b_compare(t_stack *stack_a, t_stack *stack_b, \
+int pushes, int pivot);
+void	sort_3_a(t_stack *stack_a);
+void	sort_3_b(t_stack *stack_b);
+void	sort_2_a(t_stack *stack_a);
+void	sort_2_b(t_stack *stack_b);
 // ------------------------utils-----------------------------
-void    swap_num(int *a, int *b);
+void	swap_num(int *a, int *b);
 
 #endif

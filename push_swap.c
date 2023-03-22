@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:56:55 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/16 18:05:06 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/22 23:49:40 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,43 @@ void	init_a(int argc, char **input, t_stack *stack_a)
 		exit(0);
 	*(stack_a->head) = NULL;
 	stack_a->length = 0;
+	stack_a->round = 0;
 	while (argc > 0)
 	{
-		
 		num = ft_atoi(input[argc - 1]);
 		new = ft_newlst(num);
 		ft_lstadd_back(stack_a, new);
 		argc--;
 	}
+}
+
+void	assign_index(t_stack *stack)
+{
+	t_list	*tmp;
+	t_list	*t_small;
+	int		index;
+	int		smallest;
+	int		last;
+	
+	index = 1;
+	tmp = *stack->tail;
+	last = INT_MIN;
+	while (index <= stack->length)
+	{
+		smallest = INT_MAX;
+		tmp = *stack->tail;
+		while (tmp)
+		{
+			if (tmp->number > last && tmp->number < smallest)
+			{
+				smallest = tmp->number;
+				t_small = tmp;
+			}
+			tmp = tmp->prev;
+		}
+		t_small->index = index;
+		index++;
+	} 
 }
 
 void	init_b(t_stack *stack_b)
@@ -46,31 +75,8 @@ void	init_b(t_stack *stack_b)
 	*(stack_b->head) = NULL;
 	*(stack_b->tail) = NULL;
 	stack_b->length = 0;
+	stack_b->round = 0;
 }
-
-char	**trim_input(char **argv, int argc)
-{
-	char	**input;
-	int		i;
-
-	input = (char **) malloc((argc - 1) * sizeof(char *));
-	if (!input)
-		exit(0);
-	i = 0;
-	while (i + 1 < argc)
-	{
-		input[i] = ft_strdup(argv[i + 1]);
-		if (!input[i])
-			exit(0);
-		i++;
-	}
-	return (input);
-}
-
-// char	**check_and_format(int argc, char **argv)
-// {
-// 	return (NULL);
-// }
 
 void	print_stacks(t_stack *stack_a, t_stack *stack_b)
 {
@@ -119,18 +125,11 @@ int	main(int argc, char **argv)
 	stack_b = (t_stack *) malloc(sizeof(t_stack));
 	if (!stack_b)
 		exit(0);
-	if (argc == 2)
-	{
-		input = ft_split(argv[1], ' ');
-		argc = count_words(argv[1], ' ');
-	}
-	else
-	{
-		input = trim_input(argv, argc);
-		argc--;
-	}
+	input = parse_input(&argc, argv);
 	init_a(argc, input, stack_a);
 	free_input(input, argc);
+	if (has_duplicates(stack_a))
+		exit(0);
 	init_b(stack_b);
 	sorted = selection_sort(stack_a);
 	// if (!(is_sorted(stack_a, sorted, 1, stack_a->length)))
@@ -142,10 +141,19 @@ int	main(int argc, char **argv)
 	// quicksort_a(stack_a, stack_b, sorted, stack_a->length);
 	// bucketsort(stack_a, stack_b);
 	// smallest_alg(stack_a, stack_b);
-	ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
-	print_stacks(stack_a, stack_b);
-	free(sorted);
-	free_stacks(stack_a, stack_b);
+	// ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
+	// print_stacks(stack_a, stack_b);
+	// sort_3_a(stack_a);
+	// print_stacks(stack_a, stack_b);
+
+	// print_stacks(stack_a, stack_b);
+	// sort_3_b(stack_b);
+	// if (is_sorted_b(stack_b, sorted, 3))
+	// 	ft_printf("\nB is sorted\n\n");
+	quicksort_a(stack_a, stack_b, sorted, stack_a->length);
+	// print_stacks(stack_a, stack_b);
+	// free(sorted);
+	// free_stacks(stack_a, stack_b);
 	// atexit(checkLeaks);
 	return (0);
 }

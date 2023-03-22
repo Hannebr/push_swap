@@ -6,7 +6,7 @@
 #    By: hbrouwer <hbrouwer@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/29 21:50:55 by hbrouwer      #+#    #+#                  #
-#    Updated: 2023/03/16 18:01:19 by hbrouwer      ########   odam.nl          #
+#    Updated: 2023/03/22 21:47:43 by hbrouwer      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ FLAGS = -Wall -Werror -Wextra
 SRC = 	lst_add.c \
 		push_swap.c \
 		algorithms.c \
-		push.c swap.c \
-		rotate.c
+		push.c \
+		swap.c \
+		rotate.c \
+		check.c \
+		parse.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -34,7 +37,7 @@ $(LIBS):
 			
 			
 %.o: 		%.c 
-			@$(CC) $(FLAGS) $(HEADER) -c $< -o $@
+			@$(CC) $(FLAGS) -c $< -o $@
 
 clean: 
 			@rm -f $(OBJ)

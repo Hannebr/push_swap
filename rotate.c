@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 17:38:53 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/16 17:58:22 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/20 16:59:34 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	rra(t_stack *stack_a)
 	(*stack_a->head)->prev = NULL;
 	tmp->prev = *stack_a->tail;
 	(*stack_a->tail)->next = tmp;
+	tmp->next = NULL;
 	*stack_a->tail = tmp;
 	ft_printf("rra\n");
 }
@@ -62,6 +63,7 @@ void	rrb(t_stack *stack_b)
 	(*stack_b->head)->prev = NULL;
 	tmp->prev = *stack_b->tail;
 	(*stack_b->tail)->next = tmp;
+	tmp->next = NULL;
 	*stack_b->tail = tmp;
 	ft_printf("rrb\n");
 }
