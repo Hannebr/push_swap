@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 16:56:35 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/21 14:46:44 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/23 12:13:19 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	sa(t_stack *stack_a)
 	temp = (*stack_a->tail)->prev->number;
 	(*stack_a->tail)->prev->number = (*stack_a->tail)->number;
 	(*stack_a->tail)->number = temp;
+	temp = (*stack_a->tail)->prev->index;
+	(*stack_a->tail)->prev->index = (*stack_a->tail)->index;
+	(*stack_a->tail)->index = temp;
 	ft_printf("sa\n");
 }
 
@@ -29,5 +32,8 @@ void	sb(t_stack *stack_b)
 	temp = (*stack_b->tail)->prev->number;
 	(*stack_b->tail)->prev->number = (*stack_b->tail)->number;
 	(*stack_b->tail)->number = temp;
+	temp = (*stack_b->tail)->prev->index;
+	(*stack_b->tail)->prev->index = (*stack_b->tail)->index;
+	(*stack_b->tail)->index = temp;
 	ft_printf("sb\n");
 }

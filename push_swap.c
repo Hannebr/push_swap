@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:56:55 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/22 23:49:40 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/23 14:05:10 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	assign_index(t_stack *stack)
 			tmp = tmp->prev;
 		}
 		t_small->index = index;
+		last = t_small->number;
 		index++;
 	} 
 }
@@ -116,8 +117,8 @@ int	main(int argc, char **argv)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
+	// t_list	*tmp;
 	char	**input;
-	int		*sorted;
 
 	stack_a = (t_stack *) malloc(sizeof(t_stack));
 	if (!stack_a)
@@ -131,7 +132,13 @@ int	main(int argc, char **argv)
 	if (has_duplicates(stack_a))
 		exit(0);
 	init_b(stack_b);
-	sorted = selection_sort(stack_a);
+	assign_index(stack_a);
+	// tmp = *stack_a->head;
+	// while (tmp)
+	// {
+	// 	ft_printf("num = %i, index = %i\n", tmp->number, tmp->index);
+	// 	tmp = tmp->next;
+	// }
 	// if (!(is_sorted(stack_a, sorted, 1, stack_a->length)))
 	// {
 	// 	ft_printf("%i\n", get_pivot(stack_a, sorted, 1, stack_a->length));
@@ -150,10 +157,9 @@ int	main(int argc, char **argv)
 	// sort_3_b(stack_b);
 	// if (is_sorted_b(stack_b, sorted, 3))
 	// 	ft_printf("\nB is sorted\n\n");
-	quicksort_a(stack_a, stack_b, sorted, stack_a->length);
+	quicksort_a(stack_a, stack_b, stack_a->length);
 	// print_stacks(stack_a, stack_b);
-	// free(sorted);
-	// free_stacks(stack_a, stack_b);
+	free_stacks(stack_a, stack_b);
 	// atexit(checkLeaks);
 	return (0);
 }
@@ -163,26 +169,32 @@ void	free_stacks(t_stack *stack_a, t_stack *stack_b)
 	t_list	*tmp;
 	t_list	**ptr;
 	
-	ptr = stack_a->head;
-	while (*ptr)
+	if (stack_a)
 	{
-		tmp = *ptr;
-		*ptr = (*ptr)->next;
-		free(tmp);
+		ptr = stack_a->head;
+		while (*ptr)
+		{
+			tmp = *ptr;
+			*ptr = (*ptr)->next;
+			free(tmp);
+		}
+		free(stack_a->head);
+		free(stack_a->tail);
+		free(stack_a);
 	}
-	free(stack_a->head);
-	free(stack_a->tail);
-	free(stack_a);
-	ptr = stack_b->head;
-	while (*ptr)
+	if (stack_b)
 	{
-		tmp = *ptr;
-		*ptr = (*ptr)->next;
-		free(tmp);
+		ptr = stack_b->head;
+		while (*ptr)
+		{
+			tmp = *ptr;
+			*ptr = (*ptr)->next;
+			free(tmp);
+		}
+		free(stack_b->head);
+		free(stack_b->tail);
+		free(stack_b);
 	}
-	free(stack_b->head);
-	free(stack_b->tail);
-	free(stack_b);
 }
 
 void	free_input(char **input, int argc)

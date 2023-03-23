@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 15:21:10 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/22 23:52:45 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/23 16:58:59 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void    smallest_alg(t_stack *stack_a, t_stack *stack_b)
 		pa(stack_a, stack_b);
 }
 
-int	get_pivot_a(t_stack *stack, int *sorted, int len)
+int	get_pivot_a(t_stack *stack, int len)
 {
 	int		*array;
 	int		offset;
@@ -63,8 +63,8 @@ int	get_pivot_a(t_stack *stack, int *sorted, int len)
 
 	offset = 0;
 	tmp = *stack->head;
-	i = len - 1;
-	while (tmp->number == sorted[i])
+	i = len;
+	while (tmp->index == i)
 	{
 		offset++;
 		i--;
@@ -75,18 +75,21 @@ int	get_pivot_a(t_stack *stack, int *sorted, int len)
 	return (free(array), pivot);
 }
 
-int	get_pivot_b(t_stack *stack, int *sorted)
+int	get_pivot_b(t_stack *stack)
 {
 	int		*array;
 	int		offset;
+	int		i;
 	int		pivot;
 	t_list	*tmp;
 
 	offset = 0;
+	i = 1;
 	tmp = *stack->head;
-	while (tmp->number == sorted[offset])
+	while (tmp->index == i)
 	{
 		offset++;
+		i++;
 		tmp = tmp->next;
 	}
 	array = selection_sort(stack);
@@ -94,107 +97,141 @@ int	get_pivot_b(t_stack *stack, int *sorted)
 	return (free(array), pivot);
 }
 
-void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int *sorted, int len)
+void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int len)
 {
 	int	pivot;
 
-	if (is_sorted_a(stack_a, sorted, len) && is_sorted_b(stack_b, sorted, len))
-		return ;
-	if (stack_a->length == 3)
-		sort_3_a(stack_a);
-	else if (stack_a->length == 2)
-		sort_2_a(stack_a);
-	else
+	if (!is_sorted_a(stack_a, len) || !is_sorted_b(stack_b, len))
 	{
-		pivot = get_pivot_a(stack_a, sorted, len);
-		// ft_printf("\npivot_a = %i\n\n", pivot);
-		// print_stacks(stack_a, stack_b);
-		push_pivot_a(stack_a, stack_b, pivot);
-		// print_stacks(stack_a, stack_b);
+		if (stack_a->length == 3)
+			sort_3_a(stack_a);
+		else if (stack_a->length == 2)
+			sort_2_a(stack_a);
+		else
+		{
+			pivot = get_pivot_a(stack_a, len);
+			push_pivot_a(stack_a, stack_b, pivot);
+		}
+		if (stack_a->round != 0)
+		{
+			while ((*stack_a->head)->index != len)
+				rra(stack_a);
+			while ((*stack_b->head)->index != 1)
+				rrb(stack_b);
+		}
 	}
-	if (!(is_sorted_a(stack_a, sorted, len)))
-		quicksort_a(stack_a, stack_b, sorted, len);
-	if (!(is_sorted_b(stack_b, sorted, len)))
+	if (!(is_sorted_a(stack_a, len)))
+		quicksort_a(stack_a, stack_b, len);
+	if (!(is_sorted_b(stack_b, len)))
 	{
 		stack_a->round = 1;
-		quicksort_b(stack_a, stack_b, sorted, len);
+		quicksort_b(stack_a, stack_b, len);
 	}
+	while (*stack_b->tail)
+		pa(stack_a, stack_b);
 }
 
-void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int *sorted, int len)
+void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int len)
 {
 	int	pivot;
 	
-	if (is_sorted_a(stack_a, sorted, len) && is_sorted_b(stack_b, sorted, len))
-		return ;
-	if (stack_b->length == 3)
-		sort_3_b(stack_b);
-	else if (stack_b->length == 2)
-		sort_2_b(stack_b);
-	else
+	if (!is_sorted_a(stack_a, len) || !is_sorted_b(stack_b, len))
 	{
-		pivot = get_pivot_b(stack_b, sorted);
-		// ft_printf("\npivot_b = %i\n\n", pivot);
-		// print_stacks(stack_a, stack_b);
-		push_pivot_b(stack_a, stack_b, pivot);
-		// print_stacks(stack_a, stack_b);
+		if (stack_b->length == 3)
+			sort_3_b(stack_b);
+		else if (stack_b->length == 2)
+			sort_2_b(stack_b);
+		else
+		{
+			pivot = get_pivot_b(stack_b);
+			push_pivot_b(stack_a, stack_b, pivot, len);
+		}
+		while ((*stack_b->head)->index != 1)
+			rrb(stack_b);
+		while ((*stack_a->head)->index != len)
+			rra(stack_a);
 	}
-	if (!(is_sorted_b(stack_b, sorted, len)))
-		quicksort_b(stack_a, stack_b, sorted, len);
-	if (!(is_sorted_a(stack_a, sorted, len)))
+	if (!(is_sorted_b(stack_b, len)))
+		quicksort_b(stack_a, stack_b, len);
+	if (!(is_sorted_a(stack_a, len)))
 	{
 		stack_b->round = 1;
-		quicksort_a(stack_a, stack_b, sorted, len);
+		quicksort_a(stack_a, stack_b, len);
 	}
+	while (*stack_b->tail)
+		pa(stack_a, stack_b);
 }
 
 void	push_pivot_a(t_stack *stack_a, t_stack *stack_b, int pivot)
 {
-	int	rotates;
-	
-	rotates = 0;
 	while (pushes_possible(stack_a, pivot, 'A'))
 	{
-		if ((*stack_a->tail)->number <= pivot)
-			pb(stack_a, stack_b);
-		else
+		if ((*stack_a->tail)->number < pivot)
 		{
-			ra(stack_a);
-			rotates++;
-		}	
-	}
-	if (stack_a->round != 0)
-	{
-		while (rotates > 0)
-		{
-			rra(stack_a);
-			rotates--;
+			if (stack_a->round != 0)
+				placement_b(stack_a, stack_b);
+			else
+				pb(stack_a, stack_b);
 		}
+		else
+			ra(stack_a);
 	}
 }
 
-void	push_pivot_b(t_stack *stack_a, t_stack *stack_b, int pivot)
+void	push_pivot_b(t_stack *stack_a, t_stack *stack_b, int pivot, int len)
 {
-	int	rotates;
-
-	rotates = 0;
 	while(pushes_possible(stack_b, pivot, 'B'))
 	{
 		if ((*stack_b->tail)->number >= pivot)
-			pa(stack_a, stack_b);
+			placement_a(stack_a, stack_b, len);
 		else
-		{
 			rb(stack_b);
-			rotates++;
-		}
 	}
-	if (stack_b->round != 0)
+}
+
+void	placement_a(t_stack *stack_a, t_stack *stack_b, int len)
+{
+	if ((*stack_b->tail)->index == (*stack_a->tail)->index - 1)
+		pa(stack_a, stack_b);
+	else if ((*stack_a->head)->index == len || (*stack_b->tail)->index > (*stack_a->head)->index)
 	{
-		while (rotates > 0)
-		{
+		if ((*stack_a->tail)->index != (*stack_a->tail)->prev->index - 1)
+			ra(stack_a);
+		pa(stack_a, stack_b);
+		while ((*stack_a->tail)->index != (*stack_a->tail)->prev->index - 1)
+			ra(stack_a);
+	}
+	else if ((*stack_b->tail)->index < (*stack_a->head)->index)
+	{
+		while ((*stack_b->tail)->index < (*stack_a->head)->index && (*stack_a->head)->index != len)
+			rra(stack_a);
+		pa(stack_a, stack_b);
+		ra(stack_a);
+		// while ((*stack_a->tail)->index != (*stack_a->tail)->prev->index - 1)
+		// 	ra(stack_a);
+	}
+}
+
+void	placement_b(t_stack *stack_a, t_stack *stack_b)
+{
+	if ((*stack_a->tail)->index == (*stack_b->tail)->index + 1)
+		pb(stack_a, stack_b);
+	else if ((*stack_b->head)->index == 1 || (*stack_a->tail)->index < (*stack_b->head)->index)
+	{
+		if ((*stack_b->tail)->index != (*stack_b->tail)->prev->index + 1)
+			rb(stack_b);
+		pb(stack_a, stack_b);
+		while ((*stack_b->tail)->index != (*stack_b->tail)->prev->index + 1)
+			rb(stack_b);
+	}
+	else if ((*stack_a->tail)->index > (*stack_b->head)->index)
+	{
+		while ((*stack_a->tail)->index > (*stack_b->head)->index && (*stack_b->head)->index != 1)
 			rrb(stack_b);
-			rotates--;
-		}
+		pb(stack_a, stack_b);
+		rb(stack_b);
+		// while ((*stack_b->tail)->index != (*stack_b->tail)->prev->index + 1)
+		// 	rb(stack_b);
 	}
 }
 

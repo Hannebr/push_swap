@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:45:42 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/22 23:48:42 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/23 15:54:10 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_input(char **input, int argc);
 void	init_a(int argc, char **argv, t_stack *stack_a);
 void	init_b(t_stack *stack_b);
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
+void	assign_index(t_stack *stack);
 // -----------------------parse------------------------------
 char 	**parse_input(int *argc, char **argv);
 char	**trim_input(char **argv, int argc);
@@ -63,19 +64,21 @@ void	rrb(t_stack *stack_b);
 void	find_and_push(t_stack *stack_a, t_stack *stack_b, int num);
 void	push_and_rotate(t_stack *stack_a, t_stack *stack_b);
 // -----------------------check------------------------------
-int		is_sorted_a(t_stack *stack_a, int *sorted, int len);
-int		is_sorted_b(t_stack *stack_b, int *sorted, int len);
+int 	is_sorted_a(t_stack *stack_a, int len);
+int		is_sorted_b(t_stack *stack_b, int len);
 int		pushes_possible(t_stack *stack, int pivot, int opt);
 // ------------------------algorithms-----------------------------
 void	smallest_alg(t_stack *stack_a, t_stack *stack_b);
-int		get_pivot_a(t_stack *stack, int *sorted, int len);
-int		get_pivot_b(t_stack *stack, int *sorted);
+int		get_pivot_a(t_stack *stack, int len);
+int		get_pivot_b(t_stack *stack);
 int		*selection_sort(t_stack *stack);
 void	bucketsort(t_stack *stack_a, t_stack *stack_b);
-void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int *sorted, int len);
-void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int *sorted, int len);
+void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int len);
+void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int len);
 void	push_pivot_a(t_stack *stack_a, t_stack *stack_b, int pivot);
-void	push_pivot_b(t_stack *stack_a, t_stack *stack_b, int pivot);
+void	push_pivot_b(t_stack *stack_a, t_stack *stack_b, int pivot, int len);
+void	placement_a(t_stack *stack_a, t_stack *stack_b, int len);
+void	placement_b(t_stack *stack_a, t_stack *stack_b);
 int		pivot_a_compare(t_stack *stack_a, t_stack *stack_b, \
 int pushes, int pivot);
 int		pivot_b_compare(t_stack *stack_a, t_stack *stack_b, \

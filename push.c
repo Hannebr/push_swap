@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 17:25:30 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/16 17:28:06 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/23 14:00:58 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@ void	pa(t_stack *stack_a, t_stack *stack_b)
 
 	tmp = *stack_b->tail;
 	if (tmp == *stack_b->head)
+	{
+		*stack_b->tail = NULL;
 		*stack_b->head = NULL;
-	*stack_b->tail = (*stack_b->tail)->prev;
+	}
+	else
+	{
+		*stack_b->tail = (*stack_b->tail)->prev;
+		(*stack_b->tail)->next = NULL;
+	}
 	tmp->next = NULL;
 	tmp->prev = NULL;
 	ft_lstadd_back(stack_a, tmp);
@@ -33,8 +40,15 @@ void	pb(t_stack *stack_a, t_stack *stack_b)
 
 	tmp = *stack_a->tail;
 	if (tmp == *stack_a->head)
+	{
+		*stack_a->tail = NULL;
 		*stack_a->head = NULL;
-	*stack_a->tail = (*stack_a->tail)->prev;
+	}
+	else
+	{
+		*stack_a->tail = (*stack_a->tail)->prev;
+		(*stack_a->tail)->next = NULL;	
+	}
 	tmp->next = NULL;
 	tmp->prev = NULL;
 	ft_lstadd_back(stack_b, tmp);
