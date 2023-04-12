@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:56:55 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/23 14:05:10 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/27 20:44:18 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	main(int argc, char **argv)
 	t_stack	*stack_b;
 	// t_list	*tmp;
 	char	**input;
+	int		bucket;
 
 	stack_a = (t_stack *) malloc(sizeof(t_stack));
 	if (!stack_a)
@@ -133,6 +134,7 @@ int	main(int argc, char **argv)
 		exit(0);
 	init_b(stack_b);
 	assign_index(stack_a);
+	bucket = 0;
 	// tmp = *stack_a->head;
 	// while (tmp)
 	// {
@@ -157,7 +159,7 @@ int	main(int argc, char **argv)
 	// sort_3_b(stack_b);
 	// if (is_sorted_b(stack_b, sorted, 3))
 	// 	ft_printf("\nB is sorted\n\n");
-	quicksort_a(stack_a, stack_b, stack_a->length);
+	bucketsort(stack_a, stack_b, stack_a->length, bucket);
 	// print_stacks(stack_a, stack_b);
 	free_stacks(stack_a, stack_b);
 	// atexit(checkLeaks);

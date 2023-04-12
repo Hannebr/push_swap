@@ -6,7 +6,7 @@
 /*   By: hbrouwer <hbrouwer@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/21 10:45:42 by hbrouwer      #+#    #+#                 */
-/*   Updated: 2023/03/23 15:54:10 by hbrouwer      ########   odam.nl         */
+/*   Updated: 2023/03/24 14:35:34 by hbrouwer      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	smallest_alg(t_stack *stack_a, t_stack *stack_b);
 int		get_pivot_a(t_stack *stack, int len);
 int		get_pivot_b(t_stack *stack);
 int		*selection_sort(t_stack *stack);
-void	bucketsort(t_stack *stack_a, t_stack *stack_b);
+void	bucketsort(t_stack *stack_a, t_stack *stack_b, int len, int bucket);
+void	sort_back(t_stack *stack_a, t_stack *stack_b, int len, int bucket);
 void    quicksort_a(t_stack *stack_a, t_stack *stack_b, int len);
 void    quicksort_b(t_stack *stack_a, t_stack *stack_b, int len);
 void	push_pivot_a(t_stack *stack_a, t_stack *stack_b, int pivot);
